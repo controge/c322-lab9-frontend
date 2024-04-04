@@ -71,9 +71,11 @@
                 let imageInput = document.getElementById("imageInput");            
                 let formData = new FormData();
                 formData.append("file", imageInput.files[0]);
+			  let headers = {'Authorization' : `Bearer ${configuration.token()}`};
                 let request = {
                   method: "POST",
-                  body: formData
+                  headers: headers,
+				  body: formData
                 };
                 let response = await fetch(host + "/ducks/" + duckId + "/image", request);
                 let result = await response.json();
