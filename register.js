@@ -8,13 +8,17 @@ async function signup() {
     let request = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
-        },
+				"Content-Type": "application/json",
+				'Authorization' : `Bearer ${configuration.token()}`
+		},
         body: JSON.stringify(customer)
       };
       try {
         let response = await fetch(getHost() + "/signup", request);
-        if(response.status == 200) {  
+		  if(response.status == 401){
+			  logout();
+		  }
+		if(response.status == 200) {  
             alert("The registration was successful!")
             location.href = "login.html";
 
