@@ -46,14 +46,10 @@
         for (let duck of ducks) {
           let div = document.createElement("div");
           div.className = "flip-card";
+		//attempt at adding authorization to images in the pond
           let innerHtml = `
             <div class="flip-card-inner">
-              <div class="flip-card-front">
-               <img
-                   src="${host}/ducks/${duck.id}/image"
-                   alt="Duck"
-                   style="width: 100%"
-                />
+              <div class="flip-card-front" id = "innercard">
               </div>
               <div class="flip-card-back">
                 <h1>${duck.name}</h1>
@@ -62,7 +58,31 @@
             </div>
             `;
           div.innerHTML = innerHtml;
-          pond.appendChild(div);
+		  pond.appendChild(div);
+		  let imageUrl = `${host}/ducks/${duck.id}/image`;
+		  const headers = {'Authorization' : `Bearer ${configuration.token()}`};
+		  fetch(imageUrl,{
+			  method: 'GET',
+			  headers: headers,
+			  mode: 'cors'
+		  }).then(function(response){
+			  if(response.status == 302){
+				console.log(response);
+				var image = document.createElement("img");
+//				console.log(response.blob);
+	//			image.src = URL.createObjectURL(response.blob());
+				response.blob().then((blob)=>{
+          image.src = URL.createObjectURL(blob);
+          image.style.width= "100%";
+          image.style.height = "100%";
+          let innercard = document.getElementById("innercard");
+				  innercard.appendChild(image);
+        })
+        
+				
+			  }
+		  })
+          //pond.appendChild(div);
         }
       }
     </script>
