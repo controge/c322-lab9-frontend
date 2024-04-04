@@ -1,6 +1,7 @@
 const mode = 1;
 
 const host_local = "http://localhost:8080";
+
 const host_remote = "https://ducks-service-controge.onrender.com";
 
 function getHost(){
